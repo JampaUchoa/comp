@@ -23,13 +23,15 @@
 #define Et -18
 #define Ft -19
 
-static int entrada[N] = {add, 50, 40, 1, 0, fim_string};
+static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 3, fim_string};
+//static int entrada[N] = {add, 50, 40, 1, 0, fim_string};
 //static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 5, fim_string};
 static int saida[N];
 
 void printar_array(unsigned int *array1) {
    int i;
    unsigned int fimString = -1;
+   //sleep(1);
    for(i = 0;array1[i] != fimString;i++){
        switch (array1[i]){
            case S:
@@ -38,6 +40,9 @@ void printar_array(unsigned int *array1) {
            case K:
                printf("K");
                break;
+           case I:
+               printf("I");
+               break;
            case FP:
                printf(")");
                break;
@@ -45,6 +50,15 @@ void printar_array(unsigned int *array1) {
                printf("(");
                break;
            case fim_string:
+                break;
+            case sub:
+                printf("-");
+                break;
+            case mul:
+                printf("*");
+                break;
+            case lt:
+                printf("<");
                 break;
            default:
                printf("%u ", array1[i]);
@@ -763,13 +777,48 @@ void reduz_false(int* array1, int* array2) {
     array2[k] = fim_string;
 }
 
+void trocaInteiro(int *array1, int *array2) {
+   
+    int A, nA;
+    int B, nB;
+    int n = 1;
+    A = n;
+    acha_argumento(array1,&n);
+    nA = n-1;
+    B = n;
+    acha_argumento(array1,&n);
+    nB = n-1;
 
+    int k = 0;
+    int i;
+
+    for (i = A; i <= nA; i++) {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    for (i = B; i <= nB; i++) {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    array2[k] = array1[0];
+    k++;
+
+    for (; array1[n] != fim_string; n++) {
+        array2[k] = array1[n];
+        k++;
+    }
+
+    array2[k] = fim_string;
+}
 
 int main(){
     int *array1, *array2, *array3;
     array1 = entrada;
     array2 = saida;
     while(array1[1] != fim_string){
+        printar_array(array1);
         switch (array1[0]){
             case AP:
                 remove_parenteses(array1);
@@ -824,7 +873,9 @@ int main(){
                 reduz_false(array1, array2);
                 break;
             default:
-                trocaInteiro(array1, array2);
+                if (array1[0] >= 0){
+                    trocaInteiro(array1, array2);
+                }
                 break;
         }
         array3 = array1;

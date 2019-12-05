@@ -8,7 +8,7 @@
 *   Maquina KSI
 */
 
-static char entrada[N] = "S(SI(K2))(K*)4";
+static char entrada[N] = "S(SI(K2))(K*)(4)";
 
 //"=(1)(10)(1)(2)\0"
 //String de teste:
@@ -1018,6 +1018,54 @@ void combinadorY(char *array1, char *array2)
     array2[k] = '\0';
 }
 
+void trocaInteiro(char *array1, char *array2)
+{
+    int A, nA;
+    int B, nB;
+    int C, nC;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+    B = n;
+    acha_argumento(array1, &n);
+    nB = n - 1;
+    C = n;
+    acha_argumento(array1, &n);
+    nC = n - 1;
+
+    int k = 0;
+    int i;
+
+    for (i = B; i <= nB; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    for (i = C; i <= nC; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    for (i = A; i <= nA; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    for (n = n; array1[n] != '\0'; n++)
+    {
+        array2[k] = array1[n];
+        k++;
+    }
+    array2[k] = '\0';
+
+    printf("Troca %s, %s", array1, array2);
+
+}
 
 //Procedimento que recebe uma vari·vel que aponta para
 //um array e remove os parÍnteses da primeira posiÁ„o
@@ -1059,7 +1107,7 @@ int main()
         }
         
         printf("\n");
-        sleep(3);
+        sleep(1);
     
         switch (array1[0])
         {
@@ -1118,7 +1166,10 @@ int main()
             recebeParenteses(array1);
             array2[0] = 'X';
             break;
+        case 'X':
+            break;
         default:
+            trocaInteiro(array1, array2);
             break;
         }
         array3 = array1;

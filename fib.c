@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 #define N 100000000
 
 /*
 *   Maquina KSI
 */
 
-static char entrada[N] = "+(100)1";
+static char entrada[N] = "S(SI(K2))(K*)4";
 
 //"=(1)(10)(1)(2)\0"
 //String de teste:
@@ -788,10 +789,10 @@ void testaIgualdade(char *array1, char *array2){
 
     if (resultado)
     {
-        array2[k] = 'T';
+        array2[k] = 't';
     } else
     {
-        array2[k] = 'F';
+        array2[k] = 'f';
     }
     k++;
 
@@ -855,10 +856,10 @@ void testaGT(char *array1, char *array2){
 
     if (resultado)
     {
-        array2[k] = 'T';
+        array2[k] = 't';
     } else
     {
-        array2[k] = 'F';
+        array2[k] = 'f';
     }
     k++;
 
@@ -922,10 +923,10 @@ void testaLT(char *array1, char *array2){
 
     if (resultado)
     {
-        array2[k] = 'T';
+        array2[k] = 't';
     } else
     {
-        array2[k] = 'F';
+        array2[k] = 'f';
     }
     k++;
 
@@ -975,6 +976,48 @@ void processaF(char *array1, char *array2){
 
 }
 
+void combinadorY(char *array1, char *array2)
+{
+    int A, nA;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+
+    int k = 0;
+    int i;
+
+    for (i = A; i <= nA; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    array2[k] = '(';
+    k++;
+
+    array2[k] = 'Y';
+    k++;
+
+    for (i = A; i <= nA; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    array2[k] = ')';
+    k++;
+
+    for (n = n; array1[n] != '\0'; n++)
+    {
+        array2[k] = array1[n];
+        k++;
+    }
+
+    array2[k] = '\0';
+}
+
 
 //Procedimento que recebe uma vari·vel que aponta para
 //um array e remove os parÍnteses da primeira posiÁ„o
@@ -1016,6 +1059,7 @@ int main()
         }
         
         printf("\n");
+        sleep(3);
     
         switch (array1[0])
         {
@@ -1025,8 +1069,26 @@ int main()
         case 'K':
             reduzK(array1, array2);
             break;
+        case 'F':
+            reduzF(array1, array2);
+            break;
+        case 'D':
+            reduzD(array1, array2);
+            break;
+        case 'B':
+            reduzB(array1, array2);
+            break;
         case 'S':
             reduzS(array1, array2);
+            break;
+        case 'C':
+            reduzC(array1, array2);
+            break;
+        case 'E':
+            reduzE(array1, array2);
+            break;
+        case 'Y':
+            combinadorY(array1, array2);
             break;
         case '+':
             processaSoma(array1, array2);
@@ -1046,10 +1108,10 @@ int main()
         case '<':
             testaLT(array1, array2);
             break;
-        case 'T':
+        case 't':
             processaT(array1, array2);
             break;
-        case 'F':
+        case 'f':
             processaF(array1, array2);
             break;
         case '(':

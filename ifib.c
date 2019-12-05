@@ -23,7 +23,7 @@
 #define Et -18
 #define Ft -19
 
-static int entrada[N] = {add, 20, 40, fim_string};
+static int entrada[N] = {add, 50, 40, 1, 0, fim_string};
 //static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 5, fim_string};
 static int saida[N];
 
@@ -583,6 +583,121 @@ void processaMul(int *array1, int *array2)
     array2[k] = fim_string;
 }
 
+
+void testaEq(int *array1, int *array2)
+{
+    int A, nA;
+    int B, nB;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+    B = n;
+    acha_argumento(array1, &n);
+    nB = n - 1;
+
+    int k = 0;
+    int i;
+
+    int val1 = array1[A];
+    int val2 = array1[B];
+
+    int resultado = (val1 == val2);
+
+    if (resultado)
+    {
+        array2[k] = true;
+    } else
+    {
+        array2[k] = false;
+    }
+
+    k++;
+
+    for (; array1[n] != fim_string; n++) {
+        array2[k] = array1[n];
+        k++;
+    }
+    array2[k] = fim_string;
+}
+
+void testaGt(int *array1, int *array2)
+{
+    int A, nA;
+    int B, nB;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+    B = n;
+    acha_argumento(array1, &n);
+    nB = n - 1;
+
+    int k = 0;
+    int i;
+
+    int val1 = array1[A];
+    int val2 = array1[B];
+
+    int resultado = (val1 > val2);
+
+    if (resultado)
+    {
+        array2[k] = true;
+    } else
+    {
+        array2[k] = false;
+    }
+
+    k++;
+
+    for (; array1[n] != fim_string; n++) {
+        array2[k] = array1[n];
+        k++;
+    }
+    array2[k] = fim_string;
+}
+
+void testaLt(int *array1, int *array2)
+{
+    int A, nA;
+    int B, nB;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+    B = n;
+    acha_argumento(array1, &n);
+    nB = n - 1;
+
+    int k = 0;
+    int i;
+
+    int val1 = array1[A];
+    int val2 = array1[B];
+
+    int resultado = (val1 < val2);
+
+    if (resultado)
+    {
+        array2[k] = true;
+    } else
+    {
+        array2[k] = false;
+    }
+
+    k++;
+
+    for (; array1[n] != fim_string; n++) {
+        array2[k] = array1[n];
+        k++;
+    }
+    array2[k] = fim_string;
+}
+
 void processaSub(int *array1, int *array2)
 {
     int A, nA;
@@ -613,6 +728,42 @@ void processaSub(int *array1, int *array2)
     }
     array2[k] = fim_string;
 }
+
+void reduz_true(int *array1, int *array2){
+    reduz_K(array1, array2);
+}
+
+void reduz_false(int* array1, int* array2) {
+    int A, nA;
+    int B, nB;
+
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1,&n);
+    nA = n-1;
+
+    B = n;
+    acha_argumento(array1, &n);
+    nB = n - 1;
+
+    int k = 0;
+    int i;
+
+    for (i = B; i <= nB; i++) {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    for (; array1[n] != fim_string; n++) {
+        array2[k] = array1[n];
+        k++;
+    }
+
+    array2[k] = fim_string;
+}
+
+
 
 int main(){
     int *array1, *array2, *array3;
@@ -656,8 +807,24 @@ int main(){
                 break;          
             case mul:
                 processaMul(array1, array2);
-                break;     
+                break;
+            case eq:
+                testaEq(array1, array2);
+                break;
+            case lt:
+                testaLt(array1, array2);
+                break;
+            case gt:
+                testaGt(array1, array2);
+                break;
+            case true:
+                reduz_true(array1, array2);
+                break;
+            case false:
+                reduz_false(array1, array2);
+                break;
             default:
+                trocaInteiro(array1, array2);
                 break;
         }
         array3 = array1;

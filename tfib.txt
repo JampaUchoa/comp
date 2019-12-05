@@ -1,0 +1,1 @@
+static int entrada[N] = {Y, AP, Bt, AP, S, AP, S, AP, Ct, AP, Ct, I, 2, FP, lt, FP, I, FP, FP, AP, Ft, Ct, AP, S, AP, Ft, Dt, I, AP, Ct, AP, Ct, I, 2, FP, sub, FP, FP, AP, Ft, Bt, I, AP, Ct, AP, Ct, I, 1, FP, sub, FP, FP, FP, add, FP, FP, 5, fim_string};

@@ -22,8 +22,11 @@
 #define Dt -17
 #define Et -18
 #define Ft -19
+#define Y -20
 
-static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 3, fim_string};
+// YFib
+static int entrada[N] = {Y, AP, Bt, AP, S, AP, S, AP, Ct, AP, Ct, I, 2, FP, lt, FP, I, FP, FP, AP, Ft, Ct, AP, S, AP, Ft, Dt, I, AP, Ct, AP, Ct, I, 2, FP, sub, FP, FP, AP, Ft, Bt, I, AP, Ct, AP, Ct, I, 1, FP, sub, FP, FP, FP, add, FP, FP, 10, fim_string};
+//static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 3, fim_string};
 //static int entrada[N] = {add, 50, 40, 1, 0, fim_string};
 //static int entrada[N] = {S, AP, K, AP, S, I, I, FP, FP, AP, S, AP, S, AP, K, S, FP, K, FP, AP, K, AP, S, I, I, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 2, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, lt, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, K, K, FP, I, FP, FP, AP, S, AP, S, AP, K, S, FP, AP, S, AP, S, AP, K, S, FP, AP, K, I, FP, FP, AP, S, AP, K, K, FP, AP, K, 1, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, sub, FP, FP, FP, FP, FP, FP, AP, S, AP, K, K, FP, AP, K, mul, FP, FP, FP, FP, 5, fim_string};
 static int saida[N];
@@ -813,12 +816,55 @@ void trocaInteiro(int *array1, int *array2) {
     array2[k] = fim_string;
 }
 
+void reduz_Y(int *array1, int *array2)
+{
+    int A, nA;
+    int n = 1;
+
+    A = n;
+    acha_argumento(array1, &n);
+    nA = n - 1;
+
+    int k = 0;
+    int i;
+
+    for (i = A; i <= nA; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    array2[k] = AP;
+    k++;
+
+    array2[k] = Y;
+    k++;
+
+    for (i = A; i <= nA; i++)
+    {
+        array2[k] = array1[i];
+        k++;
+    }
+
+    array2[k] = FP;
+    k++;
+
+    for (n = n; array1[n] != fim_string; n++)
+    {
+        array2[k] = array1[n];
+        k++;
+    }
+
+    array2[k] = fim_string;
+}
+
+
 int main(){
     int *array1, *array2, *array3;
     array1 = entrada;
     array2 = saida;
     while(array1[1] != fim_string){
-        printar_array(array1);
+        //printar_array(array1);
         switch (array1[0]){
             case AP:
                 remove_parenteses(array1);
@@ -872,6 +918,8 @@ int main(){
             case false:
                 reduz_false(array1, array2);
                 break;
+            case Y:
+                reduz_Y(array1, array2);
             default:
                 if (array1[0] >= 0){
                     trocaInteiro(array1, array2);
